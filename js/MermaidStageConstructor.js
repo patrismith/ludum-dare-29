@@ -36,7 +36,8 @@ Mer.StageConstructor.Lab = (function () {
         Mer.Components.StartPhysics(this);
         Mer.Components.Player(this);
         Mer.Components.Keys(this);
-        // make enemies
+        // make enemies and breakable objects
+        Mer.Components.Enemies(this);
 
     }
 
@@ -52,9 +53,10 @@ Mer.StageConstructor.Lab = (function () {
 
     }
 
-    return function (backgroundKey) {
+    return function (backgroundKey, enemyList) {
         return {
             backgroundKey: backgroundKey,
+            enemyList: enemyList,
             create: create,
             update: update };
     };

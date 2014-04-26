@@ -23,6 +23,8 @@ Mer.Constants.imageList = ['background'];
 
 Mer.Constants.gravity = 400;
 
-Mer.Constants.playerSpeed = 400;
+Mer.Constants.playerSpeed = 300;
 Mer.Constants.playerJump = 200;
 Mer.Constants.playerMaxJump = 20;
+
+Mer.Constants.AISpeed = 400;

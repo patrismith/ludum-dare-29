@@ -94,12 +94,11 @@ Mer.Components.AIKeys = function () {};
 
 
 Mer.Components.Player = function (game) {
-    console.log('adding sprite');
+    console.log('adding player');
     game.player = game.add.sprite(0,0,'mermaid');
     Mer.Components.Scale(game.player);
-    console.log('enabling physics');
     game.physics.enable(game.player, Phaser.Physics.ARCADE);
-    game.player.body.bounce.y = 0.1;
+    game.player.body.bounce.y = 0.5;
     game.player.body.collideWorldBounds = true;
     game.player.body.setSize(24,16,0,0);
     game.player.controller = Mer.Components.Controller;
@@ -112,7 +111,6 @@ Mer.Components.Player = function (game) {
     game.player.jumpSpeed = Mer.Constants.playerJump;
     game.player.maxJump = Mer.Constants.maxJump;
     game.player.grounded = Mer.Components.grounded;
-    console.log('adding animations');
     game.player.animations.add('moveLeft', [0,1], 10, true);
     game.player.animations.add('moveRight', [2,3], 10, true);
     game.player.animations.add('attackLeft', [4], 20, true);
@@ -121,6 +119,34 @@ Mer.Components.Player = function (game) {
 };
 
 Mer.Components.Scientist = function () {};
+
+Mer.Components.Enemies = function (game) {
+    console.log('adding enemies');
+    game.enemies = game.add.group();
+    game.enemies.enableBody = true;
+    game.enemies.physicsBodyType = Phaser.Physics.ARCADE;
+    for (var i = 0; i < game.enemyList.length; i++) {
+        // TODO: design enemyList
+        var member = game.enemies.create(game.enemyList[i].x * Mer.Constants.gameScale,
+                                         game.enemyList[i].y * Mer.Constants.gameScale,
+                                         'scientist');
+        Mer.Components.Scale(member);
+        member.body.bounce.y = 0.5;
+        member.body.collideWorldBounds = true;
+        member.body.setSize(16,16,0,0);
+        member.body.controller = Mer.Components.Controller;
+        member.body.keys = Mer.Components.AIKeys;
+        member.body.moveLeft = Mer.Components.MoveLeft;
+        member.body.moveRight = Mer.Components.MoveRight;
+        member.body.attackLeft = Mer.Components.Net;
+        member.body.attackRight = Mer.Components.Net;
+        member.body.moveSpeed = Mer.Constants.AISpeed;
+        member.animations.add('moveLeft', [0,1], 10, true);
+        member.animations.add('moveRight', [2,3], 10, true);
+        member.isFacing = 'left';
+        member.name = 'member' + i;
+    }
+};
 
 // net missile
 // try net.outOfBoundsKill = true
