@@ -1,30 +1,39 @@
 Mer.StageConstructor = {};
 
-Mer.StageConstructor.Menu = function () {
+Mer.StageConstructor.Menu = (function () {
 
     function create() {
+
+        Mer.Components.Background(this);
+        this.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
 
     }
 
     function update() {
 
+        if (this.input.activePointer.isDown || this.spaceKey.isDown) {
+            this.state.start(this.nextStage);
+        }
+
     }
 
-    return function () {
+    return function (backgroundKey, text) {
         return {
-
-        };
+            backgroundKey: backgroundKey,
+            nextStage: 'Tank',
+            create: create,
+            update: update }
     };
-};
+})();
 
-Mer.StageConstructor.Lab = function () {
+Mer.StageConstructor.Lab = (function () {
 
     function create() {
 
-        // start physics and gravity
-
-        // make player
-
+        Mer.Components.Background(this);
+        Mer.Components.StartPhysics(this);
+        Mer.Components.Player(this);
+        Mer.Components.Keys(this);
         // make enemies
 
     }
@@ -34,16 +43,17 @@ Mer.StageConstructor.Lab = function () {
         // check to see if function should be called
 
         // player controls
-
+        this.player.controller(this, this.player);
         // ai controls
 
         // collisions
 
     }
 
-    return function () {
+    return function (backgroundKey) {
         return {
-
-        };
+            backgroundKey: backgroundKey,
+            create: create,
+            update: update };
     };
-};
+})();
