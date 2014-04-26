@@ -54,6 +54,8 @@ Mer.Components.Net = function (obj) {
 // for when mermaid rams glass and other things like scientists
 Mer.Components.Broken = function (obj) {
     obj.animations.play('broken');
+    obj.body.destroy();
+    obj.body = null;
 };
 
 // making nets blink before they disappear
