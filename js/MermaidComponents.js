@@ -38,6 +38,17 @@ Mer.Components.BashRight = function (obj) {
     }
 };
 
+// net attack
+Mer.Components.Net = function (obj) {
+    var net = obj.game.netPool.getFirstDead();
+    if (!net) return;
+    net.revive();
+    net.checkWorldBounds = true;
+    net.outOfBoundsKill = true;
+    net.reset(obj.x, obj.y);
+    net.body.velocity.x = obj.isFacing == 'left' && -100 || 100;
+    net.body.velocity.y = -100;
+};
 
 // visual change
 // for when mermaid rams glass and other things like scientists
@@ -45,12 +56,6 @@ Mer.Components.Break = function () {};
 
 // making nets blink before they disappear
 Mer.Components.Disappear = function () {};
-
-// for scientists' attack
-Mer.Components.ThrowNet = function () {};
-
-// so scientists will face and follow mermaid
-Mer.Components.TrackMermaid = function () {};
 
 // ensures that scientists stop moving and attacking when dead
 Mer.Components.Die = function () {};
@@ -65,7 +70,7 @@ Mer.Components.Caught = function () {};
 Mer.Components.ExitStage = function () {};
 
 // for making mermaid and scientists move according to triggers
-Mer.Components.Controller = function (game, obj) {
+Mer.Components.Controller = function (game, obj, obj2) {
     var action = obj.keys(game, obj);
     if (action == 'attackLeft') obj.attackLeft(obj);
     if (action == 'attackRight') obj.attackRight(obj);
@@ -78,9 +83,9 @@ Mer.Components.PlayerKeys = function (game, obj) {
     if (obj.grounded(obj)) {
         obj.body.velocity.x = 0;
         if (obj.isFacing == 'left')
-            obj.animations.play('moveLeft')
+            obj.animations.play('moveLeft');
         else
-            obj.animations.play('moveRight')
+            obj.animations.play('moveRight');
     }
     if (game.bashButton.isDown) {
         return obj.isFacing == 'left' && 'attackLeft' || 'attackRight';
@@ -91,7 +96,18 @@ Mer.Components.PlayerKeys = function (game, obj) {
 
 // AI triggerer
 Mer.Components.AIKeys = function (game, obj) {
-    obj.body.velocity.x = 50;
+    // basic moves:
+    // ai will go towards mermaid for a time
+    // ai will pause
+    // ai will throw net
+    // ai will go towards mermaid
+    if (game.time.time - obj.moveTimer > Mer.Constants.netDelay) {
+        obj.moveTimer = game.time.time;
+        return obj.facing == 'left' && 'attackLeft' || 'attackRight';
+    } else {
+        if (obj.x - game.player.x < 0) return 'right';
+        else return 'left';
+    }
 };
 
 
@@ -120,8 +136,6 @@ Mer.Components.Player = function (game) {
     game.player.isFacing = 'right';
 };
 
-Mer.Components.Scientist = function () {};
-
 Mer.Components.Enemies = function (game) {
     console.log('adding enemies');
     game.enemies = game.add.group();
@@ -142,7 +156,10 @@ Mer.Components.Enemies = function (game) {
         member.moveRight = Mer.Components.MoveRight;
         member.attackLeft = Mer.Components.Net;
         member.attackRight = Mer.Components.Net;
+        member.game = game;
+        member.grounded = Mer.Components.grounded;
         member.moveSpeed = Mer.Constants.AISpeed;
+        member.moveTimer = game.time.time;
         member.animations.add('moveLeft', [0,1], 10, true);
         member.animations.add('moveRight', [2,3], 10, true);
         member.isFacing = 'left';
@@ -150,9 +167,17 @@ Mer.Components.Enemies = function (game) {
     }
 };
 
-// net missile
-// try net.outOfBoundsKill = true
-Mer.Components.Net = function () {};
+Mer.Components.NetPool = function (game) {
+    console.log('adding nets');
+    game.netPool = game.add.group();
+    game.netPool.enableBody = true;
+    game.netPool.physicsBodyType = Phaser.Physics.ARCADE;
+    for (var i = 0; i < Mer.Constants.maxNets; i++) {
+        var net = game.netPool.create(0,0,'net');
+        net.kill();
+        Mer.Components.Scale(net);
+    }
+};
 
 Mer.Components.Scale = function (image) {
     image.scale.x = Mer.Constants.gameScale;

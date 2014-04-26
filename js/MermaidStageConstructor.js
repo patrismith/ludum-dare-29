@@ -36,8 +36,11 @@ Mer.StageConstructor.Lab = (function () {
         Mer.Components.StartPhysics(this);
         Mer.Components.Player(this);
         Mer.Components.Keys(this);
-        // make enemies and breakable objects
+        // make enemies
         Mer.Components.Enemies(this);
+        // make the nets they use
+        Mer.Components.NetPool(this);
+        // make obstacles
 
     }
 
@@ -49,7 +52,7 @@ Mer.StageConstructor.Lab = (function () {
         this.player.controller(this, this.player);
         // ai controls
         this.enemies.forEach(function(item)
-                             {item.controller(this, item);});
+                             {item.controller(item.game, item);}, this, true);
         // collisions
 
     }

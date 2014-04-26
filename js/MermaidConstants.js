@@ -17,7 +17,8 @@ Mer.Constants.spriteList = [ ['mermaid', {w: 24, h: 16, no: 6}],
                              ['scientist', {w: 16,h: 16, no: 4}],
                              ['tank', {w: 40, h: 40, no: 2}],
                              ['fountain', {w: 24, h: 32, no: 2}],
-                             ['toilet', {w: 24, h: 32, no: 3}] ];
+                             ['toilet', {w: 24, h: 32, no: 3}],
+                             ['net', {w: 16, h: 16, no: 4}] ];
 
 Mer.Constants.imageList = ['background'];
 
@@ -27,4 +28,6 @@ Mer.Constants.playerSpeed = 300;
 Mer.Constants.playerJump = 200;
 Mer.Constants.playerMaxJump = 20;
 
-Mer.Constants.AISpeed = 400;
+Mer.Constants.AISpeed = 50;
+Mer.Constants.netDelay = 3000;
+Mer.Constants.maxNets = 2;
