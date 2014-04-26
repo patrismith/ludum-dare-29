@@ -48,7 +48,8 @@ Mer.StageConstructor.Lab = (function () {
         // player controls
         this.player.controller(this, this.player);
         // ai controls
-
+        this.enemies.forEach(function(item)
+                             {item.controller(this, item);});
         // collisions
 
     }

@@ -90,7 +90,9 @@ Mer.Components.PlayerKeys = function (game, obj) {
 };
 
 // AI triggerer
-Mer.Components.AIKeys = function () {};
+Mer.Components.AIKeys = function (game, obj) {
+    obj.body.velocity.x = 50;
+};
 
 
 Mer.Components.Player = function (game) {
@@ -134,13 +136,13 @@ Mer.Components.Enemies = function (game) {
         member.body.bounce.y = 0.5;
         member.body.collideWorldBounds = true;
         member.body.setSize(16,16,0,0);
-        member.body.controller = Mer.Components.Controller;
-        member.body.keys = Mer.Components.AIKeys;
-        member.body.moveLeft = Mer.Components.MoveLeft;
-        member.body.moveRight = Mer.Components.MoveRight;
-        member.body.attackLeft = Mer.Components.Net;
-        member.body.attackRight = Mer.Components.Net;
-        member.body.moveSpeed = Mer.Constants.AISpeed;
+        member.controller = Mer.Components.Controller;
+        member.keys = Mer.Components.AIKeys;
+        member.moveLeft = Mer.Components.MoveLeft;
+        member.moveRight = Mer.Components.MoveRight;
+        member.attackLeft = Mer.Components.Net;
+        member.attackRight = Mer.Components.Net;
+        member.moveSpeed = Mer.Constants.AISpeed;
         member.animations.add('moveLeft', [0,1], 10, true);
         member.animations.add('moveRight', [2,3], 10, true);
         member.isFacing = 'left';
