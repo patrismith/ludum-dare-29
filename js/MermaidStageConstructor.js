@@ -41,7 +41,7 @@ Mer.StageConstructor.Lab = (function () {
         // make the nets they use
         Mer.Components.NetPool(this);
         // make obstacles
-
+        Mer.Components.Obstacles(this);
     }
 
     function update() {
@@ -57,10 +57,11 @@ Mer.StageConstructor.Lab = (function () {
 
     }
 
-    return function (backgroundKey, enemyList) {
+    return function (backgroundKey, enemyList, obstacleList) {
         return {
             backgroundKey: backgroundKey,
             enemyList: enemyList,
+            obstacleList: obstacleList,
             create: create,
             update: update };
     };

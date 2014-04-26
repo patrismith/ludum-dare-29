@@ -179,6 +179,21 @@ Mer.Components.NetPool = function (game) {
     }
 };
 
+Mer.Components.Obstacles = function (game) {
+    console.log('adding obstacles');
+    game.obstacles = game.add.group();
+    game.obstacles.enableBody = true;
+    game.obstacles.physicsBodyType = Phaser.Physics.ARCADE;
+    for (var i = 0; i < game.obstacleList.length; i++) {
+        //TODO: design obstacleList
+        var member = game.obstacles.create(game.obstacleList[i].x * Mer.Constants.gameScale,
+                                           game.obstacleList[i].y * Mer.Constants.gameScale);
+        Mer.Components.Scale(member);
+        member.body.immovable = true;
+        member.body.allowGravity = false;
+    }
+};
+
 Mer.Components.Scale = function (image) {
     image.scale.x = Mer.Constants.gameScale;
     image.scale.y = Mer.Constants.gameScale;
