@@ -52,7 +52,9 @@ Mer.Components.Net = function (obj) {
 
 // visual change
 // for when mermaid rams glass and other things like scientists
-Mer.Components.Break = function () {};
+Mer.Components.Broken = function (obj) {
+    obj.animations.play('broken');
+};
 
 // making nets blink before they disappear
 Mer.Components.Disappear = function () {};
@@ -131,8 +133,8 @@ Mer.Components.Player = function (game) {
     game.player.grounded = Mer.Components.grounded;
     game.player.animations.add('moveLeft', [0,1], 10, true);
     game.player.animations.add('moveRight', [2,3], 10, true);
-    game.player.animations.add('attackLeft', [4], 20, true);
-    game.player.animations.add('attackRight', [5], 20, true);
+    game.player.animations.add('attackLeft', [4]);
+    game.player.animations.add('attackRight', [5]);
     game.player.isFacing = 'right';
 };
 
@@ -160,6 +162,7 @@ Mer.Components.Enemies = function (game) {
         member.grounded = Mer.Components.grounded;
         member.moveSpeed = Mer.Constants.AISpeed;
         member.moveTimer = game.time.time;
+        member.animations.add('broken',[4]);
         member.animations.add('moveLeft', [0,1], 10, true);
         member.animations.add('moveRight', [2,3], 10, true);
         member.isFacing = 'left';
@@ -187,10 +190,15 @@ Mer.Components.Obstacles = function (game) {
     for (var i = 0; i < game.obstacleList.length; i++) {
         //TODO: design obstacleList
         var member = game.obstacles.create(game.obstacleList[i].x * Mer.Constants.gameScale,
-                                           game.obstacleList[i].y * Mer.Constants.gameScale);
+                                           game.obstacleList[i].y * Mer.Constants.gameScale,
+                                          game.obstacleList[i].name);
         Mer.Components.Scale(member);
         member.body.immovable = true;
         member.body.allowGravity = false;
+        member.broken = Mer.Components.Broken;
+        member.animations.add('regular', [0]);
+        member.animations.add('broken', [1]);
+        member.animations.play('regular');
     }
 };
 

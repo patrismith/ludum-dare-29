@@ -14,7 +14,7 @@ Mer.Constants.audioList = ['theme',
                            'bash'];
 
 Mer.Constants.spriteList = [ ['mermaid', {w: 24, h: 16, no: 6}],
-                             ['scientist', {w: 16,h: 16, no: 4}],
+                             ['scientist', {w: 16,h: 16, no: 5}],
                              ['tank', {w: 40, h: 40, no: 2}],
                              ['fountain', {w: 24, h: 32, no: 2}],
                              ['toilet', {w: 24, h: 32, no: 3}],

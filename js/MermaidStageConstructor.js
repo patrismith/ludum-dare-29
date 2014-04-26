@@ -34,14 +34,14 @@ Mer.StageConstructor.Lab = (function () {
         console.log('lab create');
         Mer.Components.Background(this);
         Mer.Components.StartPhysics(this);
+        // make obstacles
+        Mer.Components.Obstacles(this);
         Mer.Components.Player(this);
         Mer.Components.Keys(this);
         // make enemies
         Mer.Components.Enemies(this);
         // make the nets they use
         Mer.Components.NetPool(this);
-        // make obstacles
-        Mer.Components.Obstacles(this);
     }
 
     function update() {
@@ -54,7 +54,11 @@ Mer.StageConstructor.Lab = (function () {
         this.enemies.forEach(function(item)
                              {item.controller(item.game, item);}, this, true);
         // collisions
-
+        this.physics.arcade.collide(this.obstacles, this.player,
+                                    function (sprite, collidee) {
+                                        if (!sprite.grounded(sprite)) {
+                                            collidee.broken(collidee);}
+                                    });
     }
 
     return function (backgroundKey, enemyList, obstacleList) {
