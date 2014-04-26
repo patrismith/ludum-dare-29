@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mermaid Scientist Massacre</title>
+    <script type="text/javascript" src="libs/phaser.min.js"></script>
+    <script type="text/javascript" src="js/MermaidConstants.js"></script>
+    <script type="text/javascript" src="js/MermaidComponents.js"></script>
+    <script type="text/javascript" src="js/MermaidStageConstructor.js"></script>
+    <script type="text/javascript" src="js/MermaidBoot.js"></script>
+    <script type="text/javascript" src="js/MermaidPreloader.js"></script>
+    <script type="text/javascript" src="js/MermaidMenu.js"></script>
+    <script type="text/javascript" src="js/MermaidStages.js"></script>
+  </head>
+  <body>
+    <div id="game"></div>
+    <script type="text/javascript">
+      window.onload = function () {
+          var game = new Phaser.Game(Mer.Constants.gameWidth,
+                                     Mer.Constants.gameHeight,
+                                     Phaser.AUTO,
+                                     'game');
+          game.state.add('Boot',Mer.Boot);
+          game.state.add('Preloader',Mer.Preloader);
+          game.state.add('MainMenu',Mer.Menu);
+          game.state.add('Tank',Mer.TankStage);
+          game.state.add('Hallway01',Mer.HallwayStage01);
+          game.state.start('Boot');
+      };
+    </script>
+  </body>
+</html>
