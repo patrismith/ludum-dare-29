@@ -1,20 +1,43 @@
-Mer.Components = {}
+Mer.Components = {};
+
+Mer.Components.grounded = function (obj) {
+    return  obj.body.touching.down || obj.body.onFloor();
+};
 
 // for mermaids and scientists
 Mer.Components.MoveLeft = function (obj) {
-    obj.body.velocity.x = -obj.moveSpeed;
-    obj.animations.play('left');
+    if (obj.grounded(obj)) {
+        obj.body.velocity.x = -obj.moveSpeed;
+        obj.isFacing = 'left';
+        obj.animations.play('moveLeft');
+    }
 };
 
 Mer.Components.MoveRight = function (obj) {
-    obj.body.velocity.x = obj.moveSpeed;
-    obj.animations.play('right');
+    if (obj.grounded(obj)) {
+        obj.body.velocity.x = obj.moveSpeed;
+        obj.isFacing = 'right';
+        obj.animations.play('moveRight');
+    }
 };
 
 // for mermaid's leap/attack
-Mer.Components.Bash = function () {
-    obj.animations.play('attack');
+Mer.Components.BashLeft = function (obj) {
+    if (obj.grounded(obj)) {
+        obj.body.velocity.y = -obj.jumpSpeed;
+        obj.body.velocity.x = -800;
+        obj.animations.play('attackLeft');
+    }
 };
+
+Mer.Components.BashRight = function (obj) {
+    if (obj.grounded(obj)) {
+        obj.body.velocity.y = -obj.jumpSpeed;
+        obj.body.velocity.x = 800;
+        obj.animations.play('attackRight');
+    }
+};
+
 
 // visual change
 // for when mermaid rams glass and other things like scientists
@@ -44,25 +67,37 @@ Mer.Components.ExitStage = function () {};
 // for making mermaid and scientists move according to triggers
 Mer.Components.Controller = function (game, obj) {
     var action = obj.keys(game, obj);
+    if (action == 'attackLeft') obj.attackLeft(obj);
+    if (action == 'attackRight') obj.attackRight(obj);
     if (action == 'left') obj.moveLeft(obj);
     if (action == 'right') obj.moveRight(obj);
-    if (action == 'attack') obj.attack(obj);
 };
 
 // player triggerer
 Mer.Components.PlayerKeys = function (game, obj) {
-    obj.body.velocity.x = 0;
+    if (obj.grounded(obj)) {
+        obj.body.velocity.x = 0;
+        if (obj.isFacing == 'left')
+            obj.animations.play('moveLeft')
+        else
+            obj.animations.play('moveRight')
+    }
+    if (game.bashButton.isDown) {
+        return obj.isFacing == 'left' && 'attackLeft' || 'attackRight';
+    }
     if (game.cursors.left.isDown) return 'left';
     if (game.cursors.right.isDown) return 'right';
-    if (game.bashButton.isDown) return 'attack';
 };
 
 // AI triggerer
 Mer.Components.AIKeys = function () {};
 
+
 Mer.Components.Player = function (game) {
+    console.log('adding sprite');
     game.player = game.add.sprite(0,0,'mermaid');
     Mer.Components.Scale(game.player);
+    console.log('enabling physics');
     game.physics.enable(game.player, Phaser.Physics.ARCADE);
     game.player.body.bounce.y = 0.1;
     game.player.body.collideWorldBounds = true;
@@ -71,11 +106,18 @@ Mer.Components.Player = function (game) {
     game.player.keys = Mer.Components.PlayerKeys;
     game.player.moveLeft = Mer.Components.MoveLeft;
     game.player.moveRight = Mer.Components.MoveRight;
-    game.player.attack = Mer.Components.Bash;
+    game.player.attackLeft = Mer.Components.BashLeft;
+    game.player.attackRight = Mer.Components.BashRight;
     game.player.moveSpeed = Mer.Constants.playerSpeed;
-    game.player.animations.add('left', [0,1], 10, true);
-    game.player.animations.add('right', [2,3], 10, true);
-    game.player.animations.add('attack', [4], 20, true);
+    game.player.jumpSpeed = Mer.Constants.playerJump;
+    game.player.maxJump = Mer.Constants.maxJump;
+    game.player.grounded = Mer.Components.grounded;
+    console.log('adding animations');
+    game.player.animations.add('moveLeft', [0,1], 10, true);
+    game.player.animations.add('moveRight', [2,3], 10, true);
+    game.player.animations.add('attackLeft', [4], 20, true);
+    game.player.animations.add('attackRight', [5], 20, true);
+    game.player.isFacing = 'right';
 };
 
 Mer.Components.Scientist = function () {};
@@ -88,6 +130,7 @@ Mer.Components.Scale = function (image) {
     image.scale.x = Mer.Constants.gameScale;
     image.scale.y = Mer.Constants.gameScale;
 };
+
 
 Mer.Components.Background = function (game) {
     game.stage.smoothed = false;

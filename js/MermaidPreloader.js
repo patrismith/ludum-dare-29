@@ -22,7 +22,7 @@ Mer.Preloader.prototype = {
                                   Mer.Constants.spriteList[i][1].no);
         }
 
-        for (var i = 0; i < Mer.Constants.imageList.length; i++) {
+        for (i = 0; i < Mer.Constants.imageList.length; i++) {
             this.load.image(Mer.Constants.imageList[i],
                                  'assets/images/' + Mer.Constants.imageList[i]  + '.png');
         }
@@ -43,6 +43,7 @@ Mer.Preloader.prototype = {
         //if (Mer.Constants.audioList.every(isLoaded) && this.ready = false) {
         //    game.debug.text('Loaded.',x,y);
             this.ready = true;
+        console.log('starting game');
             this.state.start('Menu');
         //}
     //}

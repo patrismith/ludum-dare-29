@@ -13,7 +13,7 @@ Mer.Constants.audioList = ['theme',
                            'glass',
                            'bash'];
 
-Mer.Constants.spriteList = [ ['mermaid', {w: 24, h: 16, no: 5}],
+Mer.Constants.spriteList = [ ['mermaid', {w: 24, h: 16, no: 6}],
                              ['scientist', {w: 16,h: 16, no: 4}],
                              ['tank', {w: 40, h: 40, no: 2}],
                              ['fountain', {w: 24, h: 32, no: 2}],
@@ -21,6 +21,8 @@ Mer.Constants.spriteList = [ ['mermaid', {w: 24, h: 16, no: 5}],
 
 Mer.Constants.imageList = ['background'];
 
-Mer.Constants.gravity = 100;
+Mer.Constants.gravity = 400;
 
 Mer.Constants.playerSpeed = 400;
+Mer.Constants.playerJump = 200;
+Mer.Constants.playerMaxJump = 20;

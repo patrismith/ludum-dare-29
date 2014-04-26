@@ -4,8 +4,9 @@ Mer.StageConstructor.Menu = (function () {
 
     function create() {
 
+        console.log('menu create');
         Mer.Components.Background(this);
-        this.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+        this.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     }
 
@@ -17,12 +18,12 @@ Mer.StageConstructor.Menu = (function () {
 
     }
 
-    return function (backgroundKey, text) {
+    return function (backgroundKey) {
         return {
             backgroundKey: backgroundKey,
             nextStage: 'Tank',
             create: create,
-            update: update }
+            update: update };
     };
 })();
 
@@ -30,6 +31,7 @@ Mer.StageConstructor.Lab = (function () {
 
     function create() {
 
+        console.log('lab create');
         Mer.Components.Background(this);
         Mer.Components.StartPhysics(this);
         Mer.Components.Player(this);
