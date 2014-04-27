@@ -19,7 +19,8 @@ Mer.TankStage.prototype = Mer.StageConstructor.Lab('background',
 Mer.HallwayStage01.prototype = Mer.StageConstructor.Lab('background');
 
 Mer.BathroomStage.prototype = Mer.StageConstructor.Lab('background',
-                                                      {x:5,y:104},
+                                                      {x:20,y:104},
                                                       [],
                                                       [{name:'toilet',x:60,y:90}],
-                                                      [{leadsTo: 'Tank',x:0,y:104}]);
+                                                      [{leadsTo: 'Tank',x:0,y:104}],
+                                                      false);

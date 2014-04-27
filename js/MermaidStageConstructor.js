@@ -35,8 +35,8 @@ Mer.StageConstructor.Lab = (function () {
         this.world.setBounds(0,0,1000,120 * Mer.Constants.gameScale);
         Mer.Components.Background(this);
         Mer.Components.StartPhysics(this);
-        Mer.Components.Doors(this);
         // make obstacles
+        Mer.Components.Doors(this);
         Mer.Components.Obstacles(this);
         Mer.Components.Player(this);
         Mer.Components.Keys(this);
@@ -45,21 +45,26 @@ Mer.StageConstructor.Lab = (function () {
         // make the nets they use
         Mer.Components.NetPool(this);
         Mer.Constants.nextState = null;
+        this.canEnterDoors = true;
+        this.startedAt = this.time.time;
+        console.log('create done');
     }
 
     function update() {
 
         // check to see if function should be called
         if (Mer.Constants.nextState) {
+            var nextState = Mer.Constants.nextState;
+            Mer.Constants.nextState = null;
             // TODO: fix this!
+            this.camera.reset();
             this.background = null;
             this.doors = null;
             this.enemies = null;
             this.player = null;
             this.netPool = null;
             this.obstacles = null;
-            this.state.start(Mer.Constants.nextState);
-            Mer.Constants.nextState = null;
+            this.state.start(nextState);
         }
 
         // player controls
@@ -71,11 +76,14 @@ Mer.StageConstructor.Lab = (function () {
                              {if (item.controller)
                                  item.controller(item.game, item, !item.body);}, this, true);
         // collisions
-        if (this.doors)
+        if (this.doors && this.canEnterDoors && this.time.time - this.startedAt > 1000)
         this.physics.arcade.overlap(this.doors, this.player,
                                     function (sprite, collidee) {
                                         // TODO: ...?
+                                        console.log('door at ' + collidee.body.x + ' collided by sprite at ' + sprite.body.x + ' leading to ' + collidee.leadsTo);
+                                        //sprite.game.state.start(collidee.leadsTo);
                                         Mer.Constants.nextState = collidee.leadsTo;
+                                        sprite.game.canEnterDoors = false;
                                     })
         if (this.enemies)
         this.physics.arcade.overlap(this.enemies, this.player,

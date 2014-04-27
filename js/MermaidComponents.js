@@ -156,6 +156,7 @@ Mer.Components.Player = function (game) {
     Mer.Components.Scale(game.player);
     game.camera.follow(game.player, Phaser.Camera.FOLLOW_PLATFORMER);
     game.physics.enable(game.player, Phaser.Physics.ARCADE);
+    game.player.isPlayer = true;
     game.player.body.bounce.y = 0.5;
     game.player.body.collideWorldBounds = true;
     game.player.body.setSize(24,16,0,0);
