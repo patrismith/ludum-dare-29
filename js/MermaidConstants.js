@@ -2,9 +2,12 @@ var Mer = {};
 
 Mer.Constants = {};
 
-//TODO: make some kind of record of where the mermaid should spawn
+// TODO: make some kind of record of where the mermaid should spawn
 // when states start, they should call on that to place the mermaid
 // instead of it being hardcoded
+
+// TODO: make a record of what's been broken in each room
+// break that obstacle when room spawns
 
 Mer.Constants.gameScale = 4;
 
@@ -28,6 +31,16 @@ Mer.Constants.spriteList = [ ['mermaid', {w: 24, h: 16, no: 6}],
 
 Mer.Constants.imageList = ['background'];
 
+// not using this
+Mer.Constants.stageList = {Tank: {doors: null,
+                                  enemies: null,
+                                  player: null,
+                                  obstacles: null},
+                          Bathroom: {doors: null,
+                                     enemies: null,
+                                     player: null,
+                                     obstacles: null}};
+
 Mer.Constants.gravity = 400;
 
 Mer.Constants.playerSpeed = 300;
@@ -44,3 +57,5 @@ Mer.Constants.netVelocityX = 100;
 
 Mer.Constants.maxHealth = 100;
 Mer.Constants.decreaseDelay = 1000;
+
+Mer.Constants.lastPlayerX = 0;

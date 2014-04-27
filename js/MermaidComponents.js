@@ -170,9 +170,9 @@ Mer.Components.decreaseHealth = function (game) {
 };
 
 Mer.Components.Player = function (game) {
-    console.log('adding player');
-    game.player = game.add.sprite(game.playerData.x * Mer.Constants.gameScale,
-                                  game.playerData.y * Mer.Constants.gameScale,
+    console.log('adding player to' + Mer.Constants.lastPlayerX);
+    game.player = game.add.sprite(Mer.Constants.lastPlayerX * Mer.Constants.gameScale,
+                                  104 * Mer.Constants.gameScale,
                                   'mermaid');
     Mer.Components.Scale(game.player);
     game.camera.follow(game.player, Phaser.Camera.FOLLOW_PLATFORMER);
@@ -292,6 +292,7 @@ Mer.Components.Doors = function (game) {
         member.body.immovable = true;
         member.body.allowGravity = false;
         member.leadsTo = game.doorList[i].leadsTo;
+        member.playerX = game.doorList[i].playerX;
     }
 };
 

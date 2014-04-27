@@ -1,26 +1,33 @@
 Mer.MenuStage = function (game) {};
 Mer.TankStage = function (game) {};
-Mer.HallwayStage01 = function (game) {};
+Mer.Hallway01Stage = function (game) {};
+Mer.Hallway02Stage = function (game) {};
+Mer.Hallway03Stage = function (game) {};
+Mer.Hallway04Stage = function (game) {};
 Mer.LoseStage = function (game) {};
 Mer.WinStage = function (game) {};
 Mer.BathroomStage = function (game) {};
 
-Mer.MenuStage.prototype = Mer.StageConstructor.Menu('background');
+Mer.MenuStage.prototype = Mer.StageConstructor.Menu('Menu','background', 'Tank');
 Mer.LoseStage.prototype = Mer.StageConstructor.Menu('background');
 Mer.WinStage.prototype = Mer.StageConstructor.Menu('background');
 
-Mer.TankStage.prototype = Mer.StageConstructor.Lab('background',
-                                                   {x:0,y:104},
+Mer.TankStage.prototype = Mer.StageConstructor.Lab('Tank','background',
                                                    [{x:70,y:100},{x:80,y:100}],
                                                    [{name: 'tank', x: 0, y: 80, water: true}],
-                                                   [{leadsTo: 'Bathroom', x: 200, y:104}],
+                                                   [{leadsTo: 'Hallway01', x: 220, y:104, playerX: 10}],
+                                                   true);
+// make exits teleport the player to specific x y coords in the next room
+Mer.Hallway01Stage.prototype = Mer.StageConstructor.Lab('Hallway01','background',
+                                                   [{x:70,y:100},{x:80,y:100}],
+                                                   [],
+                                                   [{leadsTo: 'Bathroom', x: 100, y:104, playerX: 10},
+                                                    {leadsTo: 'Tank', x: 0, y:104, playerX: 200}],
                                                    true);
 
-Mer.HallwayStage01.prototype = Mer.StageConstructor.Lab('background');
-
-Mer.BathroomStage.prototype = Mer.StageConstructor.Lab('background',
-                                                      {x:20,y:104},
+Mer.BathroomStage.prototype = Mer.StageConstructor.Lab('Bathroom','background',
+                                                      //{x:20,y:104},
                                                       [],
                                                       [{name:'toilet',x:60,y:90, water:true}],
-                                                      [{leadsTo: 'Tank',x:0,y:104}],
+                                                      [{leadsTo: 'Hallway01',x:0,y:104, playerX: 100}],
                                                       false);

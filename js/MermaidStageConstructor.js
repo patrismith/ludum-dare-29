@@ -18,10 +18,11 @@ Mer.StageConstructor.Menu = (function () {
 
     }
 
-    return function (backgroundKey) {
+    return function (stageName, backgroundKey, nextStage) {
         return {
             backgroundKey: backgroundKey,
-            nextStage: 'Tank',
+            nextStage: nextStage,
+            stageName: stageName,
             create: create,
             update: update };
     };
@@ -57,7 +58,6 @@ Mer.StageConstructor.Lab = (function () {
         if (Mer.Constants.nextState) {
             var nextState = Mer.Constants.nextState;
             Mer.Constants.nextState = null;
-            // TODO: fix this!
             this.camera.reset();
             this.background = null;
             this.doors = null;
@@ -87,9 +87,10 @@ Mer.StageConstructor.Lab = (function () {
         this.physics.arcade.overlap(this.doors, this.player,
                                     function (sprite, collidee) {
                                         // TODO: ...?
-                                        console.log('door at ' + collidee.body.x + ' collided by sprite at ' + sprite.body.x + ' leading to ' + collidee.leadsTo);
+                                        console.log('door at ' + collidee.body.x + ' collided by sprite at ' + sprite.body.x + ' leading to ' + collidee.leadsTo + ' at ' + collidee.playerX);
                                         //sprite.game.state.start(collidee.leadsTo);
                                         Mer.Constants.nextState = collidee.leadsTo;
+                                        Mer.Constants.lastPlayerX = collidee.playerX;
                                         sprite.game.canEnterDoors = false;
                                     });
         if (this.enemies)
@@ -124,14 +125,15 @@ Mer.StageConstructor.Lab = (function () {
             Mer.Components.decreaseHealth(this);
     }
 
-    return function (backgroundKey, playerData, enemyList, obstacleList, doorList, firstStage) {
+    return function (stageName, backgroundKey, enemyList, obstacleList, doorList, firstStage) {
         return {
             backgroundKey: backgroundKey,
             doorList: doorList,
             enemyList: enemyList,
             obstacleList: obstacleList,
-            playerData: playerData,
+//            playerData: playerData,
             firstStage: firstStage,
+            stageName: stageName,
             create: create,
             update: update };
     };
