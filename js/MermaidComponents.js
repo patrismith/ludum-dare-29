@@ -59,8 +59,10 @@ Mer.Components.Net = function (obj) {
 Mer.Components.Broken = function (obj, destroy) {
     obj.animations.play('broken');
     if (destroy) {
-        obj.body.destroy();
-        obj.body = null;
+        if (obj.body) {
+            obj.body.destroy();
+            obj.body = null;
+        }
     } else {
         obj.controller = null;
     }
@@ -69,21 +71,23 @@ Mer.Components.Broken = function (obj, destroy) {
 // making nets blink before they disappear
 Mer.Components.Disappear = function () {};
 
-// ensures that scientists stop moving and attacking when dead
-Mer.Components.Die = function () {};
-
-// when mermaid is slowed in net
-Mer.Components.Stuck = function () {};
+Mer.Components.Die = function (obj) {
+    // TODO: make the death scene more interesting,
+    // maybe overlay a giant 'you got caught!'
+    // until player hits a key
+    obj.game.state.start('Menu');
+};
 
 // when mermaid gets caught
 Mer.Components.Caught = function (player, net) {
-    console.log('player is caught!');
+    player.inNet = true;
     net.animations.play('caught');
     net.reset(player.x, player.y);
     player.body.velocity.x = 0;
     player.body.velocity.y = 0;
     if (player.game.time.time - net.caughtTimer > Mer.Constants.caughtDelay) {
         net.caughtTimer = 0;
+        player.inNet = false;
         net.kill();
     }
 };
@@ -102,18 +106,27 @@ Mer.Components.Controller = function (game, obj, obj2) {
 
 // player triggerer
 Mer.Components.PlayerKeys = function (game, obj) {
-    if (obj.grounded(obj)) {
-        obj.body.velocity.x = 0;
-        if (obj.isFacing == 'left')
-            obj.animations.play('moveLeft');
-        else
-            obj.animations.play('moveRight');
+    if (game.firstStage) {
+        if (game.bashButton.isDown) {
+            game.firstStage = false;
+            game.obstacles = null;
+            Mer.Components.Obstacles(game, true);
+            return 'attackRight';
+        }
+    } else {
+        if (obj.grounded(obj)) {
+            obj.body.velocity.x = 0;
+            if (obj.isFacing == 'left')
+                obj.animations.play('moveLeft');
+            else
+                obj.animations.play('moveRight');
+        }
+        if (game.bashButton.isDown) {
+            return obj.isFacing == 'left' && 'attackLeft' || 'attackRight';
+        }
+        if (game.cursors.left.isDown) return 'left';
+        if (game.cursors.right.isDown) return 'right';
     }
-    if (game.bashButton.isDown) {
-        return obj.isFacing == 'left' && 'attackLeft' || 'attackRight';
-    }
-    if (game.cursors.left.isDown) return 'left';
-    if (game.cursors.right.isDown) return 'right';
 };
 
 // AI triggerer
@@ -123,7 +136,7 @@ Mer.Components.AIKeys = function (game, obj, dead) {
     // ai will pause
     // ai will throw net
     // ai will go towards mermaid
-    if (!dead) {
+    if (!dead && !obj.still) {
         if (game.time.time - obj.moveTimer > Mer.Constants.netDelay) {
             obj.moveTimer = game.time.time;
             return obj.facing == 'left' && 'attackLeft' || 'attackRight';
@@ -137,8 +150,11 @@ Mer.Components.AIKeys = function (game, obj, dead) {
 
 Mer.Components.Player = function (game) {
     console.log('adding player');
-    game.player = game.add.sprite(0,0,'mermaid');
+    game.player = game.add.sprite(game.playerData.x * Mer.Constants.gameScale,
+                                  game.playerData.y * Mer.Constants.gameScale,
+                                  'mermaid');
     Mer.Components.Scale(game.player);
+    game.camera.follow(game.player, Phaser.Camera.FOLLOW_PLATFORMER);
     game.physics.enable(game.player, Phaser.Physics.ARCADE);
     game.player.body.bounce.y = 0.5;
     game.player.body.collideWorldBounds = true;
@@ -155,6 +171,7 @@ Mer.Components.Player = function (game) {
     game.player.maxJump = Mer.Constants.maxJump;
     game.player.grounded = Mer.Components.grounded;
     game.player.caught = Mer.Components.Caught;
+    game.player.die = Mer.Components.Die;
     game.player.animations.add('moveLeft', [0,1], 10, true);
     game.player.animations.add('moveRight', [2,3], 10, true);
     game.player.animations.add('attackLeft', [4]);
@@ -162,7 +179,7 @@ Mer.Components.Player = function (game) {
     game.player.isFacing = 'right';
 };
 
-Mer.Components.Enemies = function (game) {
+Mer.Components.Enemies = function (game, still) {
     console.log('adding enemies');
     game.enemies = game.add.group();
     game.enemies.enableBody = true;
@@ -187,6 +204,7 @@ Mer.Components.Enemies = function (game) {
         member.moveSpeed = Mer.Constants.AISpeed;
         member.moveTimer = game.time.time;
         member.broken = Mer.Components.Broken;
+        member.still = still;
         member.animations.add('broken',[4]);
         member.animations.add('moveLeft', [0,1], 10, true);
         member.animations.add('moveRight', [2,3], 10, true);
@@ -210,7 +228,7 @@ Mer.Components.NetPool = function (game) {
     }
 };
 
-Mer.Components.Obstacles = function (game) {
+Mer.Components.Obstacles = function (game, alreadyBroken) {
     console.log('adding obstacles');
     game.obstacles = game.add.group();
     game.obstacles.enableBody = true;
@@ -226,7 +244,25 @@ Mer.Components.Obstacles = function (game) {
         member.broken = Mer.Components.Broken;
         member.animations.add('regular', [0]);
         member.animations.add('broken', [1]);
-        member.animations.play('regular');
+        if (!alreadyBroken) {
+            member.animations.play('regular');
+        }
+    }
+};
+
+Mer.Components.Doors = function (game) {
+    console.log('adding doors');
+    game.doors = game.add.group();
+    game.doors.enableBody = true;
+    game.doors.physicsBodyType = Phaser.Physics.ARCADE;
+    for (var i = 0; i < game.doorList.length; i++) {
+        var member = game.doors.create(game.doorList[i].x * Mer.Constants.gameScale,
+                                       game.doorList[i].y * Mer.Constants.gameScale,
+                                       'door');
+        Mer.Components.Scale(member);
+        member.body.immovable = true;
+        member.body.allowGravity = false;
+        member.leadsTo = game.doorList[i].leadsTo;
     }
 };
 

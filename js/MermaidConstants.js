@@ -18,7 +18,8 @@ Mer.Constants.spriteList = [ ['mermaid', {w: 24, h: 16, no: 6}],
                              ['tank', {w: 40, h: 40, no: 2}],
                              ['fountain', {w: 24, h: 32, no: 2}],
                              ['toilet', {w: 24, h: 32, no: 3}],
-                             ['net', {w: 16, h: 16, no: 4}] ];
+                             ['net', {w: 16, h: 16, no: 4}],
+                             ['door', {w: 8, h: 16, no: 1}] ];
 
 Mer.Constants.imageList = ['background'];
 
