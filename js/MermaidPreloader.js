@@ -6,7 +6,7 @@ Mer.Preloader.prototype = {
 
     preload: function () {
 
-        //game.debug.text('Loading...', x, y);
+        this.game.debug.text('Loading...', this.world.centerX, this.world.centerY);
         //for (var i = 0; i > Mer.Constants.audioList.length; i++) {
         //    this.game.load.audio(Mer.Constants.audioList[i],
         //                         ['assets/audio/' + Mer.Constants.audioList[i]  + '.ogg']);
@@ -29,6 +29,7 @@ Mer.Preloader.prototype = {
 
         // instead of a tilemap
         // try rendering game map as whole image, and place invisible barriers
+        console.log(this.state.checkState('Bathroom'));
 
     },
 
@@ -41,7 +42,7 @@ Mer.Preloader.prototype = {
         //       or comment the sound stuff out,
         //       or skip the preloader.
         //if (Mer.Constants.audioList.every(isLoaded) && this.ready = false) {
-        //    game.debug.text('Loaded.',x,y);
+        this.game.debug.text('',this.world.centerX,this.world.centerY);
             this.ready = true;
         console.log('starting game');
             this.state.start('Menu');

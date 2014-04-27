@@ -172,10 +172,10 @@ Mer.Components.Player = function (game) {
     game.player.grounded = Mer.Components.grounded;
     game.player.caught = Mer.Components.Caught;
     game.player.die = Mer.Components.Die;
-    game.player.animations.add('moveLeft', [0,1], 10, true);
-    game.player.animations.add('moveRight', [2,3], 10, true);
     game.player.animations.add('attackLeft', [4]);
     game.player.animations.add('attackRight', [5]);
+    game.player.animations.add('moveLeft', [0,1], 10, true);
+    game.player.animations.add('moveRight', [2,3], 10, true);
     game.player.isFacing = 'right';
 };
 
