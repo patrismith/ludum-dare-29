@@ -31,3 +31,7 @@ Mer.Constants.playerMaxJump = 20;
 Mer.Constants.AISpeed = 50;
 Mer.Constants.netDelay = 3000;
 Mer.Constants.maxNets = 2;
+Mer.Constants.caughtDelay = 2000;
+
+Mer.Constants.netVelocityY = 200;
+Mer.Constants.netVelocityX = 100;

@@ -65,6 +65,11 @@ Mer.StageConstructor.Lab = (function () {
                                         if (!sprite.grounded(sprite)) {
                                             collidee.broken(collidee, true);}
                                     });
+        this.physics.arcade.overlap(this.netPool, this.player,
+                                    function (sprite, collidee) {
+                                        if (collidee.alive)
+                                        sprite.caught(sprite, collidee);
+                                    });
     }
 
     return function (backgroundKey, enemyList, obstacleList) {

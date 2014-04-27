@@ -46,8 +46,12 @@ Mer.Components.Net = function (obj) {
     net.checkWorldBounds = true;
     net.outOfBoundsKill = true;
     net.reset(obj.x, obj.y);
-    net.body.velocity.x = obj.isFacing == 'left' && -100 || 100;
-    net.body.velocity.y = -100;
+    net.body.velocity.x = obj.isFacing == 'left'
+        && -Mer.Constants.netVelocityX
+        || Mer.Constants.netVelocityX;
+    net.body.velocity.y = -Mer.Constants.netVelocityY;
+    net.animations.play('normal');
+    net.caughtTimer = obj.game.time.time
 };
 
 // visual change
@@ -72,7 +76,17 @@ Mer.Components.Die = function () {};
 Mer.Components.Stuck = function () {};
 
 // when mermaid gets caught
-Mer.Components.Caught = function () {};
+Mer.Components.Caught = function (player, net) {
+    console.log('player is caught!');
+    net.animations.play('caught');
+    net.reset(player.x, player.y);
+    player.body.velocity.x = 0;
+    player.body.velocity.y = 0;
+    if (player.game.time.time - net.caughtTimer > Mer.Constants.caughtDelay) {
+        net.caughtTimer = 0;
+        net.kill();
+    }
+};
 
 // for stages, option to stop music
 Mer.Components.ExitStage = function () {};
@@ -129,6 +143,7 @@ Mer.Components.Player = function (game) {
     game.player.body.bounce.y = 0.5;
     game.player.body.collideWorldBounds = true;
     game.player.body.setSize(24,16,0,0);
+    game.player.game = game;
     game.player.controller = Mer.Components.Controller;
     game.player.keys = Mer.Components.PlayerKeys;
     game.player.moveLeft = Mer.Components.MoveLeft;
@@ -139,6 +154,7 @@ Mer.Components.Player = function (game) {
     game.player.jumpSpeed = Mer.Constants.playerJump;
     game.player.maxJump = Mer.Constants.maxJump;
     game.player.grounded = Mer.Components.grounded;
+    game.player.caught = Mer.Components.Caught;
     game.player.animations.add('moveLeft', [0,1], 10, true);
     game.player.animations.add('moveRight', [2,3], 10, true);
     game.player.animations.add('attackLeft', [4]);
@@ -188,6 +204,9 @@ Mer.Components.NetPool = function (game) {
         var net = game.netPool.create(0,0,'net');
         net.kill();
         Mer.Components.Scale(net);
+        net.animations.add('caught', [1]);
+        net.animations.add('normal', [0]);
+        net.caughtTimer = 0;
     }
 };
 
