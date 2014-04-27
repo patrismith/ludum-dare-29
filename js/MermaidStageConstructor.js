@@ -44,6 +44,7 @@ Mer.StageConstructor.Lab = (function () {
         Mer.Components.Enemies(this, this.firstStage);
         // make the nets they use
         Mer.Components.NetPool(this);
+        Mer.Components.Meter(this);
         Mer.Constants.nextState = null;
         this.canEnterDoors = true;
         this.startedAt = this.time.time;
@@ -84,7 +85,7 @@ Mer.StageConstructor.Lab = (function () {
                                         //sprite.game.state.start(collidee.leadsTo);
                                         Mer.Constants.nextState = collidee.leadsTo;
                                         sprite.game.canEnterDoors = false;
-                                    })
+                                    });
         if (this.enemies)
         this.physics.arcade.overlap(this.enemies, this.player,
                                     function (sprite, collidee) {
@@ -106,6 +107,8 @@ Mer.StageConstructor.Lab = (function () {
                                         if (collidee.alive)
                                         sprite.caught(sprite, collidee);
                                     });
+        if (this.meter)
+            Mer.Components.decreaseHealth(this);
     }
 
     return function (backgroundKey, playerData, enemyList, obstacleList, doorList, firstStage) {

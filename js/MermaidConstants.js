@@ -2,6 +2,10 @@ var Mer = {};
 
 Mer.Constants = {};
 
+//TODO: make some kind of record of where the mermaid should spawn
+// when states start, they should call on that to place the mermaid
+// instead of it being hardcoded
+
 Mer.Constants.gameScale = 4;
 
 Mer.Constants.gameWidth = 128 * Mer.Constants.gameScale;
@@ -19,7 +23,8 @@ Mer.Constants.spriteList = [ ['mermaid', {w: 24, h: 16, no: 6}],
                              ['fountain', {w: 24, h: 32, no: 2}],
                              ['toilet', {w: 24, h: 32, no: 3}],
                              ['net', {w: 16, h: 16, no: 4}],
-                             ['door', {w: 8, h: 16, no: 1}] ];
+                             ['door', {w: 8, h: 16, no: 1}],
+                             ['meter', {w: 128, h: 8, no: 1}] ];
 
 Mer.Constants.imageList = ['background'];
 
@@ -36,3 +41,6 @@ Mer.Constants.caughtDelay = 2000;
 
 Mer.Constants.netVelocityY = 200;
 Mer.Constants.netVelocityX = 100;
+
+Mer.Constants.maxHealth = 100;
+Mer.Constants.decreaseDelay = 1000;

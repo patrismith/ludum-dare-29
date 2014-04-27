@@ -12,6 +12,8 @@ Mer.Preloader.prototype = {
         //                         ['assets/audio/' + Mer.Constants.audioList[i]  + '.ogg']);
         //}
 
+        Mer.Constants.currentHealth = Mer.Constants.maxHealth;
+
         console.log(Mer.Constants.spriteList.length);
         for (var i = 0; i < Mer.Constants.spriteList.length; i++) {
             console.log('adding ' + Mer.Constants.spriteList[i][0]);

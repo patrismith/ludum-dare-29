@@ -46,12 +46,10 @@ Mer.Components.Net = function (obj) {
     net.checkWorldBounds = true;
     net.outOfBoundsKill = true;
     net.reset(obj.x, obj.y);
-    net.body.velocity.x = obj.isFacing == 'left'
-        && -Mer.Constants.netVelocityX
-        || Mer.Constants.netVelocityX;
+    net.body.velocity.x = obj.isFacing == 'left' && -Mer.Constants.netVelocityX || Mer.Constants.netVelocityX;
     net.body.velocity.y = -Mer.Constants.netVelocityY;
     net.animations.play('normal');
-    net.caughtTimer = obj.game.time.time
+    net.caughtTimer = obj.game.time.time;
 };
 
 // visual change
@@ -75,6 +73,7 @@ Mer.Components.Die = function (obj) {
     // TODO: make the death scene more interesting,
     // maybe overlay a giant 'you got caught!'
     // until player hits a key
+    Mer.Constants.currentHealth = Mer.Constants.maxHealth;
     obj.game.state.start('Menu');
 };
 
@@ -147,6 +146,27 @@ Mer.Components.AIKeys = function (game, obj, dead) {
     }
 };
 
+// dehydration meter
+Mer.Components.Meter = function (game, obj) {
+    console.log('adding meter');
+    game.meter = game.add.sprite(0,0,'meter');
+    Mer.Components.Scale(game.meter);
+};
+
+Mer.Components.updateMeter = function (game) {
+    var cropRect = {x: 0, y: 0, width: (128 * Mer.Constants.currentHealth / Mer.Constants.maxHealth), height: 8};
+    game.meter.crop(cropRect);
+};
+
+Mer.Components.decreaseHealth = function (game) {
+    if (game.time.time - game.startedAt > Mer.Constants.decreaseDelay) {
+        game.startedAt = game.time.time;
+        Mer.Constants.currentHealth--;
+    }
+    if (Mer.Constants.currentHealth > 0) {
+        Mer.Components.updateMeter(game);
+    }
+};
 
 Mer.Components.Player = function (game) {
     console.log('adding player');
