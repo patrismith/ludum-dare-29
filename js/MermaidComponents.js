@@ -52,10 +52,14 @@ Mer.Components.Net = function (obj) {
 
 // visual change
 // for when mermaid rams glass and other things like scientists
-Mer.Components.Broken = function (obj) {
+Mer.Components.Broken = function (obj, destroy) {
     obj.animations.play('broken');
-    obj.body.destroy();
-    obj.body = null;
+    if (destroy) {
+        obj.body.destroy();
+        obj.body = null;
+    } else {
+        obj.controller = null;
+    }
 };
 
 // making nets blink before they disappear
@@ -99,18 +103,20 @@ Mer.Components.PlayerKeys = function (game, obj) {
 };
 
 // AI triggerer
-Mer.Components.AIKeys = function (game, obj) {
+Mer.Components.AIKeys = function (game, obj, dead) {
     // basic moves:
     // ai will go towards mermaid for a time
     // ai will pause
     // ai will throw net
     // ai will go towards mermaid
-    if (game.time.time - obj.moveTimer > Mer.Constants.netDelay) {
-        obj.moveTimer = game.time.time;
-        return obj.facing == 'left' && 'attackLeft' || 'attackRight';
-    } else {
-        if (obj.x - game.player.x < 0) return 'right';
-        else return 'left';
+    if (!dead) {
+        if (game.time.time - obj.moveTimer > Mer.Constants.netDelay) {
+            obj.moveTimer = game.time.time;
+            return obj.facing == 'left' && 'attackLeft' || 'attackRight';
+        } else {
+            if (obj.x - game.player.x < 0) return 'right';
+            else return 'left';
+        }
     }
 };
 
@@ -164,6 +170,7 @@ Mer.Components.Enemies = function (game) {
         member.grounded = Mer.Components.grounded;
         member.moveSpeed = Mer.Constants.AISpeed;
         member.moveTimer = game.time.time;
+        member.broken = Mer.Components.Broken;
         member.animations.add('broken',[4]);
         member.animations.add('moveLeft', [0,1], 10, true);
         member.animations.add('moveRight', [2,3], 10, true);

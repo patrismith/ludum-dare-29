@@ -52,12 +52,18 @@ Mer.StageConstructor.Lab = (function () {
         this.player.controller(this, this.player);
         // ai controls
         this.enemies.forEach(function(item)
-                             {item.controller(item.game, item);}, this, true);
+                             {if (item.controller)
+                                 item.controller(item.game, item, !item.body);}, this, true);
         // collisions
+        this.physics.arcade.overlap(this.enemies, this.player,
+                                    function (sprite, collidee) {
+                                        if (!sprite.grounded(sprite)) {
+                                            collidee.broken(collidee, false);}
+                                    });
         this.physics.arcade.collide(this.obstacles, this.player,
                                     function (sprite, collidee) {
                                         if (!sprite.grounded(sprite)) {
-                                            collidee.broken(collidee);}
+                                            collidee.broken(collidee, true);}
                                     });
     }
 
