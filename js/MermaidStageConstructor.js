@@ -68,9 +68,15 @@ Mer.StageConstructor.Lab = (function () {
             this.state.start(nextState);
         }
 
+        if (this.waterSources)
+            this.physics.arcade.overlap(this.waterSources, this.player,
+                                        function (sprite, collidee) {
+                                            Mer.Constants.currentHealth = Mer.Constants.maxHealth;
+                                        });
+
         // player controls
         if (this.player)
-        this.player.controller(this, this.player, this.firstStage);
+            this.player.controller(this, this.player, this.firstStage);
         // ai controls
         if (this.enemies)
         this.enemies.forEach(function(item)
@@ -99,7 +105,14 @@ Mer.StageConstructor.Lab = (function () {
         this.physics.arcade.collide(this.obstacles, this.player,
                                     function (sprite, collidee) {
                                         if (!sprite.grounded(sprite)) {
-                                            collidee.broken(collidee, true);}
+                                            if (collidee.isWaterSource) {
+                                                var member = sprite.game.waterSources.create(collidee.x,collidee.y,collidee.key);
+                                                Mer.Components.Scale(member);
+                                                member.body.immovable = true;
+                                                member.body.allowGravity = false;
+                                                member.animations.add('broken',[1]);
+                                            }
+                                                collidee.broken(collidee, true);}
                                     });
         if (this.netPool)
         this.physics.arcade.overlap(this.netPool, this.player,

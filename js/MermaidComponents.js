@@ -61,6 +61,7 @@ Mer.Components.Broken = function (obj, destroy) {
             obj.body.destroy();
             obj.body = null;
         }
+
     } else {
         obj.controller = null;
     }
@@ -254,6 +255,9 @@ Mer.Components.Obstacles = function (game, alreadyBroken) {
     game.obstacles = game.add.group();
     game.obstacles.enableBody = true;
     game.obstacles.physicsBodyType = Phaser.Physics.ARCADE;
+    game.waterSources = game.add.group();
+    game.waterSources.enableBody = true;
+    game.waterSources.physicsBodyType = Phaser.Physics.ARCADE;
     for (var i = 0; i < game.obstacleList.length; i++) {
         //TODO: design obstacleList
         var member = game.obstacles.create(game.obstacleList[i].x * Mer.Constants.gameScale,
@@ -267,6 +271,10 @@ Mer.Components.Obstacles = function (game, alreadyBroken) {
         member.animations.add('broken', [1]);
         if (!alreadyBroken) {
             member.animations.play('regular');
+        }
+        if (game.obstacleList[i].water) {
+            member.isWaterSource = true;
+            //game.waterSources.add(member);
         }
     }
 };

@@ -12,7 +12,7 @@ Mer.WinStage.prototype = Mer.StageConstructor.Menu('background');
 Mer.TankStage.prototype = Mer.StageConstructor.Lab('background',
                                                    {x:0,y:104},
                                                    [{x:70,y:100},{x:80,y:100}],
-                                                   [{name: 'tank', x: 0, y: 80}],
+                                                   [{name: 'tank', x: 0, y: 80, water: true}],
                                                    [{leadsTo: 'Bathroom', x: 200, y:104}],
                                                    true);
 
@@ -21,6 +21,6 @@ Mer.HallwayStage01.prototype = Mer.StageConstructor.Lab('background');
 Mer.BathroomStage.prototype = Mer.StageConstructor.Lab('background',
                                                       {x:20,y:104},
                                                       [],
-                                                      [{name:'toilet',x:60,y:90}],
+                                                      [{name:'toilet',x:60,y:90, water:true}],
                                                       [{leadsTo: 'Tank',x:0,y:104}],
                                                       false);
