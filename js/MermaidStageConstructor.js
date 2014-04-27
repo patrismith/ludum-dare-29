@@ -33,7 +33,7 @@ Mer.StageConstructor.Lab = (function () {
     function create() {
 
         console.log('lab create');
-        this.world.setBounds(0,0,1000,120 * Mer.Constants.gameScale);
+        this.world.setBounds(0,0,this.stageWidth * Mer.Constants.gameScale,120 * Mer.Constants.gameScale);
         Mer.Components.Background(this);
         Mer.Components.StartPhysics(this);
         // make obstacles
@@ -83,7 +83,7 @@ Mer.StageConstructor.Lab = (function () {
                              {if (item.controller)
                                  item.controller(item.game, item, !item.body);}, this, true);
         // collisions
-        if (this.doors && this.canEnterDoors && this.time.time - this.startedAt > 1000)
+        if (this.doors && this.canEnterDoors && this.cursors.up.isDown)
         this.physics.arcade.overlap(this.doors, this.player,
                                     function (sprite, collidee) {
                                         // TODO: ...?
@@ -125,15 +125,15 @@ Mer.StageConstructor.Lab = (function () {
             Mer.Components.decreaseHealth(this);
     }
 
-    return function (stageName, backgroundKey, enemyList, obstacleList, doorList, firstStage) {
+    return function (stageName, backgroundKey, stageWidth, enemyList, obstacleList, doorList, firstStage) {
         return {
             backgroundKey: backgroundKey,
             doorList: doorList,
             enemyList: enemyList,
             obstacleList: obstacleList,
-//            playerData: playerData,
             firstStage: firstStage,
             stageName: stageName,
+            stageWidth: stageWidth,
             create: create,
             update: update };
     };

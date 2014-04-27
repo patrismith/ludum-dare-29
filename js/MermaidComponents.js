@@ -167,6 +167,9 @@ Mer.Components.decreaseHealth = function (game) {
     if (Mer.Constants.currentHealth > 0) {
         Mer.Components.updateMeter(game);
     }
+    if (Mer.Constants.currentHealth <= 1) {
+        game.player.die(game);
+    }
 };
 
 Mer.Components.Player = function (game) {
