@@ -4,7 +4,7 @@ Mer.StageConstructor.Menu = (function () {
 
     function create() {
 
-        console.log('menu create');
+        ////console.log('menu create');
         Mer.Components.Background(this, true);
         if (this.musicKey) {
             this.sound.stopAll();
@@ -53,7 +53,6 @@ Mer.StageConstructor.Lab = (function () {
 
     function create() {
 
-        console.log('lab create');
         this.world.setBounds(0,0,
                              this.stageWidth * Mer.Constants.gameScale,
                              120 * Mer.Constants.gameScale);
@@ -80,7 +79,6 @@ Mer.StageConstructor.Lab = (function () {
         Mer.Constants.nextState = null;
         this.canEnterDoors = true;
         this.startedAt = this.time.time;
-        console.log('create done');
     }
 
     function update() {
@@ -118,7 +116,7 @@ Mer.StageConstructor.Lab = (function () {
         this.physics.arcade.overlap(this.doors, this.player,
                                     function (sprite, collidee) {
                                         // TODO: ...?
-                                        console.log('door at ' + collidee.body.x + ' collided by sprite at ' + sprite.body.x + ' leading to ' + collidee.leadsTo + ' at ' + collidee.playerX);
+                                        ////console.log('door at ' + collidee.body.x + ' collided by sprite at ' + sprite.body.x + ' leading to ' + collidee.leadsTo + ' at ' + collidee.playerX);
                                         //sprite.game.state.start(collidee.leadsTo);
                                         Mer.Constants.nextState = collidee.leadsTo;
                                         Mer.Constants.lastPlayerX = collidee.playerX;

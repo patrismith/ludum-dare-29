@@ -155,7 +155,7 @@ Mer.Components.AIKeys = function (game, obj, dead) {
 
 // dehydration meter
 Mer.Components.Meter = function (game, obj) {
-    console.log('adding meter');
+    //console.log('adding meter');
     game.meter = game.add.sprite(0,0,'meter');
     Mer.Components.Scale(game.meter);
     game.meter.fixedToCamera = true;
@@ -181,7 +181,7 @@ Mer.Components.decreaseHealth = function (game) {
 };
 
 Mer.Components.Player = function (game) {
-    console.log('adding player to' + Mer.Constants.lastPlayerX);
+    //console.log('adding player to' + Mer.Constants.lastPlayerX);
     game.player = game.add.sprite(Mer.Constants.lastPlayerX * Mer.Constants.gameScale,
                                   104 * Mer.Constants.gameScale,
                                   'mermaid');
@@ -214,7 +214,7 @@ Mer.Components.Player = function (game) {
 };
 
 Mer.Components.Enemies = function (game, still) {
-    console.log('adding enemies');
+    //console.log('adding enemies');
     game.enemies = game.add.group();
     game.enemies.enableBody = true;
     game.enemies.physicsBodyType = Phaser.Physics.ARCADE;
@@ -248,7 +248,7 @@ Mer.Components.Enemies = function (game, still) {
 };
 
 Mer.Components.NetPool = function (game) {
-    console.log('adding nets');
+    //console.log('adding nets');
     game.netPool = game.add.group();
     game.netPool.enableBody = true;
     game.netPool.physicsBodyType = Phaser.Physics.ARCADE;
@@ -263,7 +263,7 @@ Mer.Components.NetPool = function (game) {
 };
 
 Mer.Components.Obstacles = function (game, alreadyBroken) {
-    console.log('adding obstacles');
+    //console.log('adding obstacles');
     game.obstacles = game.add.group();
     game.obstacles.enableBody = true;
     game.obstacles.physicsBodyType = Phaser.Physics.ARCADE;
@@ -298,7 +298,7 @@ Mer.Components.Obstacles = function (game, alreadyBroken) {
 };
 
 Mer.Components.Doors = function (game) {
-    console.log('adding doors');
+    //console.log('adding doors');
     game.doors = game.add.group();
     game.doors.enableBody = true;
     game.doors.physicsBodyType = Phaser.Physics.ARCADE;

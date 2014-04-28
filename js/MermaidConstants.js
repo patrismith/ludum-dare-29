@@ -2,10 +2,6 @@ var Mer = {};
 
 Mer.Constants = {};
 
-// TODO: make some kind of record of where the mermaid should spawn
-// when states start, they should call on that to place the mermaid
-// instead of it being hardcoded
-
 // TODO: make a record of what's been broken in each room
 // break that obstacle when room spawns
 

@@ -8,16 +8,16 @@ Mer.Preloader.prototype = {
 
         this.game.debug.text('Loading...', this.world.centerX, this.world.centerY);
         for (var i = 0; i < Mer.Constants.audioList.length; i++) {
-            console.log('adding ' + Mer.Constants.audioList[i]);
+            //console.log('adding ' + Mer.Constants.audioList[i]);
             this.load.audio(Mer.Constants.audioList[i],
                                  ['assets/audio/' + Mer.Constants.audioList[i]  + '.ogg']);
         }
 
         Mer.Constants.currentHealth = Mer.Constants.maxHealth;
 
-        console.log(Mer.Constants.spriteList.length);
+        //console.log(Mer.Constants.spriteList.length);
         for (i = 0; i < Mer.Constants.spriteList.length; i++) {
-            console.log('adding ' + Mer.Constants.spriteList[i][0]);
+            //console.log('adding ' + Mer.Constants.spriteList[i][0]);
             this.load.spritesheet(Mer.Constants.spriteList[i][0],
                                   'assets/sprites/' + Mer.Constants.spriteList[i][0] + '.png',
                                   Mer.Constants.spriteList[i][1].w,
@@ -40,7 +40,7 @@ Mer.Preloader.prototype = {
         if (this.cache.isSoundDecoded('title') && this.cache.isSoundDecoded('theme') && this.ready === false) {
             this.game.debug.text('',this.world.centerX,this.world.centerY);
             this.ready = true;
-            console.log('starting game');
+            //console.log('starting game');
             this.state.start('Menu');
         }
     },
