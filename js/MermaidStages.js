@@ -27,7 +27,7 @@ Mer.Win05Stage = function (game) {};
 Mer.BathroomStage = function (game) {};
 
 Mer.MenuStage.prototype = Mer.StageConstructor.Menu('Menu','background', 'Tank', 'title', false);
-Mer.DeathStage.prototype = Mer.StageConstructor.Menu('Death', 'death', 'Menu', 'death', false);
+Mer.DeathStage.prototype = Mer.StageConstructor.Menu('Death', 'death', 'Menu', 'death', false, true);
 Mer.Win01Stage.prototype = Mer.StageConstructor.Menu('Win01', 'win01', 'Win02', 'beach', true);
 Mer.Win02Stage.prototype = Mer.StageConstructor.Menu('Win02', 'win02', 'Win03', null, true);
 Mer.Win03Stage.prototype = Mer.StageConstructor.Menu('Win03', 'win03', 'Win04', null, true);
@@ -86,14 +86,14 @@ Mer.Lab03Stage.prototype = Mer.StageConstructor.Lab('Lab03','lab03', 128,
 Mer.Lab04Stage.prototype = Mer.StageConstructor.Lab('Lab04','lab04', 256,
                                                    [{x:70,y:100},{x:80,y:100}],
                                                    [],
-                                                   [{leadsTo: 'Hallway03', x: 128, y:104, playerX: 500},
+                                                   [{leadsTo: 'Hallway03', x: 112, y:104, playerX: 500},
                                                     {leadsTo: 'Lab05', x: 0, y:104, playerX: 224},
                                                     {leadsTo: 'Lab08', x: 240, y:104, playerX: 10}]);
 
 Mer.Lab05Stage.prototype = Mer.StageConstructor.Lab('Lab05','lab05', 256,
                                                    [{x:70,y:100},{x:80,y:100}],
                                                    [],
-                                                   [{leadsTo: 'Lab06', x: 128, y:104, playerX: 10},
+                                                   [{leadsTo: 'Lab06', x: 56, y:104, playerX: 10},
                                                     {leadsTo: 'Lab07', x: 0, y:104, playerX: 120},
                                                     {leadsTo: 'Lab04', x: 240, y:104, playerX: 10}]);
 
@@ -159,6 +159,6 @@ Mer.Fountain01Stage.prototype = Mer.StageConstructor.Lab('Fountain01','fountain0
 
 Mer.Fountain02Stage.prototype = Mer.StageConstructor.Lab('Fountain02','fountain02', 256,
                                                    [{x:70,y:100},{x:80,y:100}],
-                                                   [{name:'fountain',x:88,y:90, water:true}],
+                                                   [{name:'fountain',x:112,y:90, water:true}],
                                                    [{leadsTo: 'Lab10', x: 248, y:104, playerX: 10},
                                                     {leadsTo: 'Lab09', x: 0, y:104, playerX: 120}]);

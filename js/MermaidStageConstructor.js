@@ -8,8 +8,13 @@ Mer.StageConstructor.Menu = (function () {
         Mer.Components.Background(this, true);
         if (this.musicKey) {
             this.sound.stopAll();
-            this.music = this.add.audio(this.musicKey);
-            this.music.play();
+            if (this.deathscreen) {
+                this.music = this.add.audio(this.musicKey);
+                this.music.play();
+            } else {
+                this.music = this.add.audio(this.musicKey, 1, true);
+                this.music.play('',1,true);
+            }
         }
         this.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.startedAt = this.time.time;
@@ -31,10 +36,11 @@ Mer.StageConstructor.Menu = (function () {
         }
     }
 
-    return function (stageName, backgroundKey, nextStage, musicKey, dontStop) {
+    return function (stageName, backgroundKey, nextStage, musicKey, dontStop, deathscreen) {
         return {
             backgroundKey: backgroundKey,
             dontStop: dontStop,
+            deathscreen: deathscreen,
             musicKey: musicKey,
             nextStage: nextStage,
             stageName: stageName,
@@ -54,7 +60,7 @@ Mer.StageConstructor.Lab = (function () {
         if (this.stageName == 'Tank') {
             this.sound.pauseAll();
             this.music = this.add.audio('theme');
-            this.music.play();
+            this.music.play('',1,true);
         }
         this.bash = this.add.audio('bash');
         this.hit = this.add.audio('hit');

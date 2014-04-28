@@ -57,7 +57,8 @@ Mer.Constants.imageList = ['background',
                            'win02',
                            'win03',
                            'win04',
-                           'win05'
+                           'win05',
+                           'lobby'
                           ];
 
 Mer.Constants.gravity = 400;
