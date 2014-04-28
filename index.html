@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Mermaid Scientist Massacre -- Holy Mermaid Ram Battle</title>
+    <title>Mermaid Scientist Massacre -- Ludum Dare 29</title>
+    <link type="text/css" rel="stylesheet" href="style.css"></link>
     <script type="text/javascript" src="lib/phaser.min.js"></script>
     <script type="text/javascript" src="js/MermaidConstants.js"></script>
     <script type="text/javascript" src="js/MermaidComponents.js"></script>
@@ -12,7 +13,9 @@
     <script type="text/javascript" src="js/MermaidStages.js"></script>
   </head>
   <body>
-    <div id="game"></div>
+  <body>
+    <div>
+    <div class="game2" id="game"></div>
     <script type="text/javascript">
       window.onload = function () {
           var game = new Phaser.Game(Mer.Constants.gameWidth,
@@ -23,5 +26,18 @@
           game.state.start('Boot');
       };
     </script>
+
+    <div class="instructions">
+      <div class="controls"><p>Controls:</p>
+      <ul>
+      <li><em>Space bar</em>: Bash attack!
+      <li><em>Click the canvas</em>: Move!</li>
+      <li><em>Up arrow</em>: Enter doors!</li>
+      </ul>
+</div>
+      <h3>Info</h3>
+      <p><em>Mermaid Scientist Massacre</em> was created for the <a href="http://www.ludumdare.com/compo/2014/04/23/welcome-to-ludum-dare-29er/">Ludum Dare 29 competition</a>. Code and art was created by <a href="http://patrismith.net">P. Smith</a> (as pancakecity) and the music was created by S. Duda. Code is under the <a href="http://opensource.org/licenses/MIT">MIT</a> license, and all game assets are copyrighted to their respective creators. We used the <a href="http://phaser.io">Phaser</a> framework; we also used <a href="http://www.drpetter.se/project_sfxr.html">sfxr</a> for the jumping sound effect.</p>
+    </div>
+    </div>
   </body>
 </html>

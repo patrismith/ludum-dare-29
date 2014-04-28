@@ -30,7 +30,11 @@ Mer.Boot.prototype = {
         this.state.add('Win04', Mer.Win04Stage);
         this.state.add('Win05', Mer.Win05Stage);
         this.state.add('Death', Mer.DeathStage);
-        this.state.add('Win', Mer.WinStage);
+        this.state.add('Story01', Mer.Story01Stage);
+        this.state.add('Story02', Mer.Story02Stage);
+        this.state.add('Story03', Mer.Story03Stage);
+        this.state.add('Story04', Mer.Story04Stage);
+        this.state.add('Story05', Mer.Story05Stage);
         this.input.maxPointers = 1;
         this.state.start('Preloader');
     }

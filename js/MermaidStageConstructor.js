@@ -129,14 +129,14 @@ Mer.StageConstructor.Lab = (function () {
                                     function (sprite, collidee) {
                                         if (!sprite.grounded(sprite)) {
                                             collidee.broken(collidee, false);}
-                                        else if (sprite.inNet) {
+                                        else if (sprite.inNet && !collidee.isBroken) {
                                             Mer.Constants.currentHealth = 1;
                                         }
                                     });
         if (this.obstacles)
         this.physics.arcade.collide(this.obstacles, this.player,
                                     function (sprite, collidee) {
-                                        if (!sprite.grounded(sprite)) {
+                                        if (!sprite.grounded(sprite) && !sprite.inNet) {
                                             if (collidee.isWaterSource) {
                                                 var member = sprite.game.waterSources.create(collidee.x,collidee.y,collidee.key);
                                                 Mer.Components.Scale(member);

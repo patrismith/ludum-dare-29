@@ -58,6 +58,11 @@ Mer.Constants.imageList = ['background',
                            'win03',
                            'win04',
                            'win05',
+                           'story01',
+                           'story02',
+                           'story03',
+                           'story04',
+                           'story05',
                            'lobby'
                           ];
 
@@ -66,17 +71,18 @@ Mer.Constants.gravity = 400;
 Mer.Constants.playerSpeed = 300;
 Mer.Constants.playerJump = 200;
 Mer.Constants.playerMaxJump = 20;
+Mer.Constants.playerBash = 400;
 
 Mer.Constants.AISpeed = 50;
-Mer.Constants.netDelay = 3000;
-Mer.Constants.maxNets = 2;
+Mer.Constants.netDelay = 2000;
+Mer.Constants.maxNets = 10;
 Mer.Constants.caughtDelay = 2000;
 
-Mer.Constants.netVelocityY = 200;
-Mer.Constants.netVelocityX = 100;
+Mer.Constants.netVelocityY = 300;
+Mer.Constants.netVelocityX = 400;
 
 Mer.Constants.maxHealth = 100;
-Mer.Constants.decreaseDelay = 1000;
+Mer.Constants.decreaseDelay = 250;
 
 Mer.Constants.lastPlayerX = 0;
 Mer.Constants.playMusic = true;

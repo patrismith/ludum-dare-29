@@ -1,0 +1,68 @@
+a {
+    color: #335;
+}
+
+div {
+    display: block;
+    margin: auto;
+    width: 600px;
+    background-color: #FFD;
+}
+
+.game2 {
+    outline: 1px solid #55755;
+    width: 500px;
+}
+
+canvas {
+    display: block;
+    margin: auto;
+    width: 500px;
+    height: 500px;
+    background-color: #DFD;
+    outline: 1px dashed #224;
+}
+
+p, ul {
+    display: block;
+    font-weight: 600;
+    font-family: Georgia;
+    color: #422;
+    list-style: none;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+h3 {
+    font-family: Georgia;
+    text-align: left;
+    color: #422;
+    padding-left: 1em;
+}
+
+.controls {
+    background-color: #FFF;
+    width: 400px;
+    outline: 1px dashed #224;
+}
+
+.controls p {
+    padding-top: 1em;
+    text-align: center;
+}
+
+.controls ul {
+    margin: 0em auto;
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-top: 0em;
+    padding-bottom: 1em;
+}
+
+li {
+    margin: 1em auto;
+}
+
+em {
+    font-weight: 700;
+}

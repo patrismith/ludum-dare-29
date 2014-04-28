@@ -37,7 +37,7 @@ Mer.Preloader.prototype = {
 
     update: function () {
 
-        if (this.cache.isSoundDecoded('title') && this.cache.isSoundDecoded('theme') && this.ready == false) {
+        if (this.cache.isSoundDecoded('title') && this.cache.isSoundDecoded('theme') && this.ready === false) {
             this.game.debug.text('',this.world.centerX,this.world.centerY);
             this.ready = true;
             console.log('starting game');

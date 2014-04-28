@@ -25,7 +25,7 @@ Mer.Components.MoveRight = function (obj) {
 Mer.Components.BashLeft = function (obj) {
     if (obj.grounded(obj)) {
         obj.body.velocity.y = -obj.jumpSpeed;
-        obj.body.velocity.x = -800;
+        obj.body.velocity.x = -Mer.Constants.playerBash;
         obj.animations.play('attackLeft');
     }
 };
@@ -33,7 +33,7 @@ Mer.Components.BashLeft = function (obj) {
 Mer.Components.BashRight = function (obj) {
     if (obj.grounded(obj)) {
         obj.body.velocity.y = -obj.jumpSpeed;
-        obj.body.velocity.x = 800;
+        obj.body.velocity.x = Mer.Constants.playerBash;
         obj.animations.play('attackRight');
     }
 };
@@ -58,6 +58,7 @@ Mer.Components.Broken = function (obj, destroy) {
 
     //obj.game.glass.play('',0,0.5);
     obj.animations.play('broken');
+    obj.isBroken = true;
     if (destroy) {
         if (obj.body) {
             obj.body.destroy();
@@ -88,7 +89,7 @@ Mer.Components.Caught = function (player, net) {
     net.animations.play('caught');
     net.reset(player.x, player.y);
     player.body.velocity.x = 0;
-    player.body.velocity.y = 0;
+    player.body.velocity.y = 200;
     if (player.game.time.time - net.caughtTimer > Mer.Constants.caughtDelay) {
         net.caughtTimer = 0;
         player.inNet = false;
