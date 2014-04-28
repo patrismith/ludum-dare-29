@@ -5,22 +5,37 @@ Mer.StageConstructor.Menu = (function () {
     function create() {
 
         console.log('menu create');
-        Mer.Components.Background(this);
+        Mer.Components.Background(this, true);
+        if (this.musicKey) {
+            this.sound.stopAll();
+            this.music = this.add.audio(this.musicKey);
+            this.music.play();
+        }
         this.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
+        this.startedAt = this.time.time;
     }
 
     function update() {
 
-        if (this.input.activePointer.isDown || this.spaceKey.isDown) {
-            this.state.start(this.nextStage);
+        if (this.time.time - this.startedAt > 1000) {
+            if (this.input.activePointer.isDown || this.spaceKey.isDown) {
+                if (!this.dontStop) {
+                    if (this.music) {
+                        this.music.stop();
+                        this.music = null;
+                    }
+                }
+                if (this.nextStage)
+                    this.state.start(this.nextStage);
+            }
         }
-
     }
 
-    return function (stageName, backgroundKey, nextStage) {
+    return function (stageName, backgroundKey, nextStage, musicKey, dontStop) {
         return {
             backgroundKey: backgroundKey,
+            dontStop: dontStop,
+            musicKey: musicKey,
             nextStage: nextStage,
             stageName: stageName,
             create: create,
@@ -33,7 +48,17 @@ Mer.StageConstructor.Lab = (function () {
     function create() {
 
         console.log('lab create');
-        this.world.setBounds(0,0,this.stageWidth * Mer.Constants.gameScale,120 * Mer.Constants.gameScale);
+        this.world.setBounds(0,0,
+                             this.stageWidth * Mer.Constants.gameScale,
+                             120 * Mer.Constants.gameScale);
+        if (this.stageName == 'Tank') {
+            this.sound.pauseAll();
+            this.music = this.add.audio('theme');
+            this.music.play();
+        }
+        this.bash = this.add.audio('bash');
+        this.hit = this.add.audio('hit');
+        this.net = this.add.audio('net');
         Mer.Components.Background(this);
         Mer.Components.StartPhysics(this);
         // make obstacles
@@ -99,7 +124,7 @@ Mer.StageConstructor.Lab = (function () {
                                         if (!sprite.grounded(sprite)) {
                                             collidee.broken(collidee, false);}
                                         else if (sprite.inNet) {
-                                            sprite.die(sprite);
+                                            Mer.Constants.currentHealth = 1;
                                         }
                                     });
         if (this.obstacles)
@@ -125,13 +150,14 @@ Mer.StageConstructor.Lab = (function () {
             Mer.Components.decreaseHealth(this);
     }
 
-    return function (stageName, backgroundKey, stageWidth, enemyList, obstacleList, doorList, firstStage) {
+    return function (stageName, backgroundKey, stageWidth, enemyList, obstacleList, doorList, firstStage, lastStage) {
         return {
             backgroundKey: backgroundKey,
             doorList: doorList,
             enemyList: enemyList,
             obstacleList: obstacleList,
             firstStage: firstStage,
+            lastStage: lastStage,
             stageName: stageName,
             stageWidth: stageWidth,
             create: create,

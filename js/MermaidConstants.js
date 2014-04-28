@@ -18,7 +18,10 @@ Mer.Constants.audioList = ['theme',
                            'title',
                            'beach',
                            'glass',
-                           'bash'];
+                           'death',
+                           'bash',
+                           'hit',
+                           'net'];
 
 Mer.Constants.spriteList = [ ['mermaid', {w: 24, h: 16, no: 6}],
                              ['scientist', {w: 16,h: 16, no: 5}],
@@ -29,17 +32,33 @@ Mer.Constants.spriteList = [ ['mermaid', {w: 24, h: 16, no: 6}],
                              ['door', {w: 8, h: 16, no: 1}],
                              ['meter', {w: 128, h: 8, no: 1}] ];
 
-Mer.Constants.imageList = ['background'];
-
-// not using this
-Mer.Constants.stageList = {Tank: {doors: null,
-                                  enemies: null,
-                                  player: null,
-                                  obstacles: null},
-                          Bathroom: {doors: null,
-                                     enemies: null,
-                                     player: null,
-                                     obstacles: null}};
+Mer.Constants.imageList = ['background',
+                           'oceanbg',
+                           'tankbg',
+                           'death',
+                           'bathroom',
+                           'hallway01',
+                           'hallway02',
+                           'hallway03',
+                           'hallway04',
+                           'fountain01',
+                           'fountain02',
+                           'lab01',
+                           'lab02',
+                           'lab03',
+                           'lab04',
+                           'lab05',
+                           'lab06',
+                           'lab07',
+                           'lab08',
+                           'lab09',
+                           'lab10',
+                           'win01',
+                           'win02',
+                           'win03',
+                           'win04',
+                           'win05'
+                          ];
 
 Mer.Constants.gravity = 400;
 
@@ -59,3 +78,4 @@ Mer.Constants.maxHealth = 100;
 Mer.Constants.decreaseDelay = 1000;
 
 Mer.Constants.lastPlayerX = 0;
+Mer.Constants.playMusic = true;

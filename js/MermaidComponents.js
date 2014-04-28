@@ -55,6 +55,8 @@ Mer.Components.Net = function (obj) {
 // visual change
 // for when mermaid rams glass and other things like scientists
 Mer.Components.Broken = function (obj, destroy) {
+
+    //obj.game.glass.play('',0,0.5);
     obj.animations.play('broken');
     if (destroy) {
         if (obj.body) {
@@ -75,7 +77,9 @@ Mer.Components.Die = function (obj) {
     // maybe overlay a giant 'you got caught!'
     // until player hits a key
     Mer.Constants.currentHealth = Mer.Constants.maxHealth;
-    obj.game.state.start('Menu');
+    Mer.Constants.lastPlayerX = 0;
+    Mer.Constants.playMusic = true;
+    obj.state.start('Death');
 };
 
 // when mermaid gets caught
@@ -122,6 +126,7 @@ Mer.Components.PlayerKeys = function (game, obj) {
                 obj.animations.play('moveRight');
         }
         if (game.bashButton.isDown) {
+            game.bash.play('',0,0.5);
             return obj.isFacing == 'left' && 'attackLeft' || 'attackRight';
         }
         if (game.cursors.left.isDown) return 'left';
@@ -152,6 +157,7 @@ Mer.Components.Meter = function (game, obj) {
     console.log('adding meter');
     game.meter = game.add.sprite(0,0,'meter');
     Mer.Components.Scale(game.meter);
+    game.meter.fixedToCamera = true;
 };
 
 Mer.Components.updateMeter = function (game) {
@@ -168,6 +174,7 @@ Mer.Components.decreaseHealth = function (game) {
         Mer.Components.updateMeter(game);
     }
     if (Mer.Constants.currentHealth <= 1) {
+        game.sound.pauseAll();
         game.player.die(game);
     }
 };
@@ -182,6 +189,7 @@ Mer.Components.Player = function (game) {
     game.physics.enable(game.player, Phaser.Physics.ARCADE);
     game.player.isPlayer = true;
     game.player.body.bounce.y = 0.5;
+    game.player.body.bounce.x = 0.5;
     game.player.body.collideWorldBounds = true;
     game.player.body.setSize(24,16,0,0);
     game.player.game = game;
@@ -262,13 +270,20 @@ Mer.Components.Obstacles = function (game, alreadyBroken) {
     game.waterSources.enableBody = true;
     game.waterSources.physicsBodyType = Phaser.Physics.ARCADE;
     for (var i = 0; i < game.obstacleList.length; i++) {
-        //TODO: design obstacleList
-        var member = game.obstacles.create(game.obstacleList[i].x * Mer.Constants.gameScale,
-                                           game.obstacleList[i].y * Mer.Constants.gameScale,
-                                          game.obstacleList[i].name);
+        var member;
+        if (game.obstacleList[i].name == 'fountain') {
+            member = game.waterSources.create(game.obstacleList[i].x * Mer.Constants.gameScale,
+                                                  game.obstacleList[i].y * Mer.Constants.gameScale,
+                                                  game.obstacleList[i].name);
+        } else {
+            member = game.obstacles.create(game.obstacleList[i].x * Mer.Constants.gameScale,
+                                               game.obstacleList[i].y * Mer.Constants.gameScale,
+                                               game.obstacleList[i].name);
+        }
         Mer.Components.Scale(member);
         member.body.immovable = true;
         member.body.allowGravity = false;
+        member.game = game;
         member.broken = Mer.Components.Broken;
         member.animations.add('regular', [0]);
         member.animations.add('broken', [1]);
@@ -277,7 +292,6 @@ Mer.Components.Obstacles = function (game, alreadyBroken) {
         }
         if (game.obstacleList[i].water) {
             member.isWaterSource = true;
-            //game.waterSources.add(member);
         }
     }
 };
@@ -305,9 +319,12 @@ Mer.Components.Scale = function (image) {
 };
 
 
-Mer.Components.Background = function (game) {
+Mer.Components.Background = function (game, noScale) {
     game.stage.smoothed = false;
+    //game.bbg = game.add.tileSprite(0,0,256,120,'oceanbg');
+    //game.bbg.fixedToCamera = true;
     game.bg = game.add.sprite(0,0,game.backgroundKey);
+    if (!noScale)
     Mer.Components.Scale(game.bg);
 };
 
