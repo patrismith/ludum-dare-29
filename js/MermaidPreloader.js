@@ -41,7 +41,7 @@ Mer.Preloader.prototype = {
             this.game.debug.text('',this.world.centerX,this.world.centerY);
             this.ready = true;
             //console.log('starting game');
-            this.state.start('Menu');
+            this.state.start('Win01');
         }
     },
 };

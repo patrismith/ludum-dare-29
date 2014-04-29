@@ -6,7 +6,7 @@ Mer.StageConstructor.Menu = (function () {
 
         ////console.log('menu create');
         Mer.Components.Background(this, true);
-        if (this.musicKey) {
+        if (this.musicKey != null) {
             this.sound.stopAll();
             if (this.deathscreen) {
                 this.music = this.add.audio(this.musicKey);
